@@ -11,4 +11,15 @@ namespace myslam
     : id_(id), time_stamp_(time_stamp), T_c_w_(T_c_w), camera_(camera), color_(color), depth_(depth)
     {
 
-    }   
+    } 
+
+    Frame::~Frame()
+    {
+
+    } 
+    
+    Frame::Ptr Frame::createFrame()
+    {
+        static long factory_id = 0;
+        return Frame::Ptr( new Frame(factory_id++) );
+    }     
