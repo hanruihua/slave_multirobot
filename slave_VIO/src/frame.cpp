@@ -1,0 +1,1 @@
+#include "slaveslam/frame.h"
