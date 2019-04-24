@@ -8,7 +8,9 @@ Eigen
  Sophus
  > git clone https://github.com/strasdat/Sophus.git
 
-OpenCV
+OpenCV 3.1
+
+
 
 
 
