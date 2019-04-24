@@ -4,7 +4,7 @@
 
 namespace slaveslam
 {
-    class camera
+    class Camera
     {
        public:
        typedef std::shared_ptr<camera> Ptr;
