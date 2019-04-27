@@ -1,6 +1,9 @@
 #ifndef FRAME_H
 #define FRAME_H
-#include "camera.h"
+
+#include "slaveslam/camera.h"
+#include "slaveslam/common_include.h"
+
 class Frame
 {
     public:
