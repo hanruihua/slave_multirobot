@@ -16,7 +16,7 @@ class Frame
 
     public:
         Frame();
-        Frame(long id, double time_stamp = 0, SE3 T_c_w = SE3(), Camera::Ptr camera = nullptr, Mat color = Mat(), Mat depth = Mat());
+        Frame(long id, double time_stamp = 0.0, SE3 T_c_w = SE3(), Camera::Ptr camera = nullptr, Mat color = Mat(), Mat depth = Mat());
         ~Frame();
 
         //factory function

@@ -31,6 +31,6 @@ namespace slaveslam
 
     Vector3d Camera::pixel2world (const Vector2d& p_p, const SE3& T_c_w, double depth = 1)
     {
-        return camera2world(pixel2camera(p_p depth), T_c_w);
+        return camera2world(pixel2camera(p_p, depth), T_c_w);
     }
 }
