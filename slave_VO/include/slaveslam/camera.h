@@ -2,6 +2,7 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 #include "slaveslam/common_include.h"
+#include "slaveslam/config.h"
 
 namespace slaveslam
 {

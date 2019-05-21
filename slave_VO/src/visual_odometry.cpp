@@ -22,7 +22,7 @@ VisualOdometry::VisualOdometry() :
     min_inliers_        = Config::get<int> ( "min_inliers" );
     key_frame_min_rot   = Config::get<double> ( "keyframe_rotation" );
     key_frame_min_trans = Config::get<double> ( "keyframe_translation" );
-    orb_ = cv::ORB::create ( num_of_features_, scale_factor_, level_pyramid_ );``
+    orb_ = cv::ORB::create ( num_of_features_, scale_factor_, level_pyramid_ );
 }
 
 VisualOdometry::~VisualOdometry()
@@ -133,6 +133,7 @@ void VisualOdometry::setRef3DPoints()
             Vector3d p_cam = ref_->camera_->pixel2camera(
                 Vector2d(keypoints_curr_[i].pt.x, keypoints_curr_[i].pt.y), d
             );
+            std::cout<<p_cam(0)<<endl;
             pts_3d_ref_.push_back( cv::Point3f( p_cam(0,0), p_cam(1,0), p_cam(2,0) ));
             descriptors_ref_.push_back(descriptors_curr_.row(i));
         }

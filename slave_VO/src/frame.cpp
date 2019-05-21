@@ -1,5 +1,5 @@
 #include "slaveslam/frame.h"
-namespace myslam
+namespace slaveslam
 {
     Frame::Frame()
     : id_(-1), time_stamp_(-1), camera_(nullptr)
@@ -24,7 +24,7 @@ namespace myslam
         return Frame::Ptr( new Frame(factory_id++) );
     }
 
-    double Frame::findDepth(const cv::KetPoint& kp)
+    double Frame::findDepth(const cv::KeyPoint& kp)
     {
         int x = cvRound(kp.pt.x);
         int y = cvRound(kp.pt.y);

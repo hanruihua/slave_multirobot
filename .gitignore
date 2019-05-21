@@ -1,3 +1,5 @@
-*.vscode
+.vscode/
 *venv
-*.idea
+.idea/
+cmake-build-debug/
+CMake_modules/
