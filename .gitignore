@@ -2,5 +2,4 @@
 *venv
 .idea/
 cmake-build-debug/
-CMake_modules/
 build/
