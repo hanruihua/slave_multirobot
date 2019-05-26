@@ -10,6 +10,9 @@
 
 int main ( int argc, char** argv )
 {
+
+    Eigen::Vector3d initial_position(0,0,0);
+    Eigen::Vector3d current_position(0,0,0);
     if ( argc != 2 )
     {
         cout<<"usage: run_vo parameter_file"<<endl;
@@ -89,7 +92,7 @@ int main ( int argc, char** argv )
                 Tcw.translation()(0,0), Tcw.translation()(1,0), Tcw.translation()(2,0)
             )
         );
-        
+        //current_position =
         cv::imshow("image", color );
         cv::waitKey(1);
         vis.setWidgetPose( "Camera", M);
