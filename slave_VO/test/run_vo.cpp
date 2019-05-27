@@ -1,18 +1,21 @@
 // -------------- test the visual odometry -------------
-#include <fstream>
-#include <boost/timer.hpp>
-#include <opencv2/imgcodecs.hpp>
-#include <opencv2/highgui/highgui.hpp>
-#include <opencv2/viz.hpp> 
 
-#include "slaveslam/config.h"
-#include "slaveslam/visual_odometry.h"
+#include "slaveslam/run_vo.h"
 
 int main ( int argc, char** argv )
 {
 
+    ros::init(argc, argv, "slaveVO")
+    ros::NodeHandle n;
+
     Eigen::Vector3d initial_position(0,0,0);
     Eigen::Vector3d current_position(0,0,0);
+    Eigen::Affine3d T = Eigen::Affine3d::Identity();
+    Eigen::Matrix3d rotation;
+    Eigen::Vector3d trans;
+
+
+
     if ( argc != 2 )
     {
         cout<<"usage: run_vo parameter_file"<<endl;
@@ -92,7 +95,13 @@ int main ( int argc, char** argv )
                 Tcw.translation()(0,0), Tcw.translation()(1,0), Tcw.translation()(2,0)
             )
         );
-        //current_position =
+
+        cv::cv2eigen(M.rotation(), rotation);
+        cv::cv2eigen(M.translation(), trans);
+        T.rotate(rotation);
+        T.pretranslate(trans);
+        current_position = T * initial_position;
+        std::cout << current_position<< std::endl;
         cv::imshow("image", color );
         cv::waitKey(1);
         vis.setWidgetPose( "Camera", M);
