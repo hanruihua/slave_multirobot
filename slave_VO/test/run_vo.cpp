@@ -73,7 +73,7 @@ int main ( int argc, char** argv )
     ros::NodeHandle n;
 
     ros::Publisher vo_pub = n.advertise<geometry_msgs::PointStamped>("vo_position", 100);
-    ros::Subscriber mocap_sub = n.subscribe("/slave1/ground_pose", 100, slave1_callback);
+   // ros::Subscriber mocap_sub = n.subscribe("/slave1/ground_pose", 100, slave1_callback);
 
     message_filters::Subscriber<sensor_msgs::Image> depth_sub(n, "/camera/depth_registered/image", 1);
     message_filters::Subscriber<sensor_msgs::Image> color_sub(n, "/camera/rgb/image_color", 1);
@@ -122,7 +122,7 @@ int main ( int argc, char** argv )
     camera_coor.setRenderingProperty(cv::viz::LINE_WIDTH, 1.0);
     vis.showWidget( "World", world_coor );
     vis.showWidget( "Camera", camera_coor );
-    ros::Rate r(1);
+    ros::Rate r(5);
     while (ros::ok())
     {
 //        for ( int i=0; i<rgb_files.size(); i++ )
@@ -187,9 +187,10 @@ int main ( int argc, char** argv )
             
             vo_pub.publish(position);
 //          ros::spinOnce();
-            ros::spinOnce();
-            r.sleep();
+
         }
+        ros::spinOnce();
+        r.sleep();
 
 //            seq++;
 //            //cv::imshow("image", color );

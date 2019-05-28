@@ -13,16 +13,4 @@
     <rosparam file="$(arg mocap_config_file)" command="load" />
   </node>
 
-<node 
-      pkg="beginner_tutorials" 
-      name="serial"
-      type="serial"
-      launch-prefix="xterm -e">
-       </node>
-
-       
-
-<node pkg="beginner_tutorials" name="talker" type="talker"  launch-prefix="xterm -e">
-    </node>
-
 </launch>

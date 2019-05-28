@@ -46,25 +46,29 @@ int main (int argc, char** argv){
         return -1;
     }
     ros::Rate loop_rate(10);
+    uint8 data_frame[128];
     while(ros::ok()){
         ros::spinOnce();
         if(ros_ser.available()){
         // reading buffer
-        uint8_t data_frame[128];
+
         size_t n = ros_ser.available();
         position pos;
 
         ROS_INFO_STREAM("Reading from serial port");
         //read serial
-        n = ros_ser.read(data_frame, n);
-
+        ros_ser.read(data_frame, 128);
+        uint8 ab = data_frame[0];
         //extract data according to protocal
-        uint8_t data_frame_sum = 0;
-        uint8_t i = 0;
+        uint8 data_frame_sum = 0;
+            int i;
         unsigned char buf[4];
-        if((data_frame[0] == 0x55) && (data_frame[1] == 0x01))
+        uint8 a = uint8(0x55);
+        uint8 b = uint8(0x01);
+
+        if((data_frame[0] == a) && (data_frame[1] == b))
         {
-            for(i = 0;i < (128 - 1);i++)
+            for(i = 0; i < (128 - 1); i++)
             {
                 data_frame_sum += data_frame[i];
             }
@@ -72,7 +76,7 @@ int main (int argc, char** argv){
             if(data_frame_sum == data_frame[128-1])
             {
                 ROS_INFO_STREAM("valid frame");
-                ROS_INFO_STREAM("id:" + data_frame[2]);
+                //ROS_INFO_STREAM("id:" + data_frame[2]);
                 id = toString(data_frame[2]);
                 pos.x = (float)Byte32(sint32 ,data_frame[6],data_frame[5],data_frame[4], 0) / 256000.0f;
                 pos.y = (float)Byte32(sint32 ,data_frame[9],data_frame[8],data_frame[7], 0) / 256000.0f;
