@@ -8,6 +8,8 @@ std_msgs::Header head;
 double stemp1 =0.0;
 double stemp2 = 0.0;
 double stemp = 0.0;
+Eigen::Vector3d initial_position(0,0,0);
+int flag = 0;
 
 void depthCallback(const sensor_msgs::Image::ConstPtr& msg )
 {
@@ -51,6 +53,17 @@ void callback(const sensor_msgs::ImageConstPtr& depth_msg, const sensor_msgs::Im
     stemp2 = depth_ptr->header.stamp.toSec();
 }
 
+void slave1_callback(geometry_msgs::Pose2D msgIn1)
+{
+    if (flag == 0)
+    {
+        ROS_INFO("Place the initial position from mocap");
+        initial_position(0) = msgIn1.x;
+        initial_position(1) = msgIn1.y;
+        flag = 1;
+    }
+}
+
 
 
 int main ( int argc, char** argv )
@@ -60,8 +73,11 @@ int main ( int argc, char** argv )
     ros::NodeHandle n;
 
     ros::Publisher vo_pub = n.advertise<geometry_msgs::PointStamped>("vo_position", 100);
+    ros::Subscriber mocap_sub = n.subscribe("/slave1/ground_pose", 100, slave1_callback);
+
     message_filters::Subscriber<sensor_msgs::Image> depth_sub(n, "/camera/depth_registered/image", 1);
     message_filters::Subscriber<sensor_msgs::Image> color_sub(n, "/camera/rgb/image_color", 1);
+
 
    // message_filters::TimeSynchronizer<sensor_msgs::Image, sensor_msgs::Image> sync(depth_sub, color_sub, 10);
     typedef message_filters::sync_policies::ApproximateTime<sensor_msgs::Image, sensor_msgs::Image> MySyncPolicy;
@@ -76,7 +92,8 @@ int main ( int argc, char** argv )
     ros::Time begin = ros::Time::now();
 
     //eigen
-    Eigen::Vector3d initial_position(0,0,0);
+
+
     Eigen::Vector3d current_position(0,0,0);
     Eigen::Affine3d T = Eigen::Affine3d::Identity();
     Eigen::Matrix3d rotation;
@@ -105,7 +122,7 @@ int main ( int argc, char** argv )
     camera_coor.setRenderingProperty(cv::viz::LINE_WIDTH, 1.0);
     vis.showWidget( "World", world_coor );
     vis.showWidget( "Camera", camera_coor );
-
+    ros::Rate r(1);
     while (ros::ok())
     {
 //        for ( int i=0; i<rgb_files.size(); i++ )
@@ -167,6 +184,11 @@ int main ( int argc, char** argv )
 
             vis.setWidgetPose( "Camera", M);
             vis.spinOnce(1, false);
+            
+            vo_pub.publish(position);
+//          ros::spinOnce();
+            ros::spinOnce();
+            r.sleep();
         }
 
 //            seq++;
@@ -174,9 +196,7 @@ int main ( int argc, char** argv )
 //            cv::waitKey(1);
 
 //
-            vo_pub.publish(position);
-//            ros::spinOnce();
-            ros::spinOnce();
+
     }
 
     return 0;

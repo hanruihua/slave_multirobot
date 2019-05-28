@@ -1,4 +1,4 @@
 <launch>
-    <node name="slave_vo" pkg = "slave_vo" type = "run_vo" args="/home/han/catkin_ws/src/multirobot_slave/slave_VO/config/default.yaml" output="screen"/>
+    <node name="slave_vo" pkg = "slave_vo" type = "run_vo" args="/home/ubuntu/catkin_ws/src/multirobot_slave/slave_VO/config/default.yaml" output="screen"/>
 
 </launch>

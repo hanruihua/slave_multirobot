@@ -12,6 +12,7 @@ add_message_files(
   DIRECTORY msgs
   FILES
   slave_VelocityID.msg
+  uwb_position.msg
 )
 
 

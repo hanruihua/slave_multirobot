@@ -11,6 +11,7 @@
 #include <Eigen/Geometry>
 #include <ros/ros.h>
 #include <geometry_msgs/PointStamped.h>
+#include <geometry_msgs/Pose2D.h>
 #include <sensor_msgs/Image.h>
 #include <string>
 #include <tiff.h>

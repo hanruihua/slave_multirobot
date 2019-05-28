@@ -1,7 +1,7 @@
 %YAML:1.0
 # data
 # the tum dataset directory
-dataset_dir: /home/han/catkin_ws/src/data/rgbd_dataset_freiburg1_xyz
+#dataset_dir: ~/catkin_ws/src/data/rgbd_dataset_freiburg1_xyz
 
 # camera intrinsics
 # fr1

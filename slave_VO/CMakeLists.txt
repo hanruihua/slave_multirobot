@@ -27,14 +27,14 @@ set( CMAKE_CXX_FLAGS "-std=c++11 -march=native -O3" )
 set(OpenCV_DIR "/opt/ros/kinetic/share/OpenCV-3.3.1-dev")
 
 #set( EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin )
-set( LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib )
+#set( LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib )
 
 set(Sophus_DIR "~/source/Sophus/build")
 
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0")
 set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -O0")
 
-message(Status "222${G2O__LIBRARIES}")
+#message(Status "222${G2O__LIBRARIES}")
 
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/CMake_modules")
 
