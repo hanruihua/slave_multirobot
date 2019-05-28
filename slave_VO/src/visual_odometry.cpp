@@ -117,7 +117,7 @@ void VisualOdometry::featureMatching()
             feature_matches_.push_back(m);
         }
     }
-    cout<<"good matches: "<<feature_matches_.size()<<endl;
+    //cout<<"good matches: "<<feature_matches_.size()<<endl;
 }
 
 void VisualOdometry::setRef3DPoints()
@@ -160,7 +160,7 @@ void VisualOdometry::poseEstimationPnP()
     Mat rvec, tvec, inliers;
     cv::solvePnPRansac( pts3d, pts2d, K, Mat(), rvec, tvec, false, 100, 4.0, 0.99, inliers );
     num_inliers_ = inliers.rows;
-    cout<<"pnp inliers: "<<num_inliers_<<endl;
+    //cout<<"pnp inliers: "<<num_inliers_<<endl;
     T_c_r_estimated_ = SE3(
         SO3(rvec.at<double>(0,0), rvec.at<double>(1,0), rvec.at<double>(2,0)), 
         Vector3d( tvec.at<double>(0,0), tvec.at<double>(1,0), tvec.at<double>(2,0))

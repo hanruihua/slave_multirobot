@@ -1,13 +1,31 @@
 cmake_minimum_required( VERSION 2.8 )
-project ( slave_VO )
+project ( slave_vo )
 
-set( CMAKE_CXX_COMPILER "g++" )
-set( CMAKE_BUILD_TYPE "Release" )
+find_package(catkin REQUIRED COMPONENTS
+        roscpp
+        rospy
+        std_msgs
+        geometry_msgs
+        sensor_msgs
+        message_generation
+        cv_bridge
+        message_filters
+        )
+
+catkin_package(
+        #  INCLUDE_DIRS include
+        #  LIBRARIES multi_robot
+        CATKIN_DEPENDS roscpp rospy std_msgs message_runtime sensor_msgs
+        #  DEPENDS system_lib
+)
+
+#set( CMAKE_CXX_COMPILER "g++" )
+#set( CMAKE_BUILD_TYPE "Release" )
 set( CMAKE_CXX_FLAGS "-std=c++11 -march=native -O3" )
 #set(OpenCV_DIR "~/source/opencv-4.1.0/OpenCVSDK/usr/local/lib/cmake/opencv4")
 set(OpenCV_DIR "/opt/ros/kinetic/share/OpenCV-3.3.1-dev")
 
-set( EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin )
+#set( EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin )
 set( LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib )
 
 set(Sophus_DIR "~/source/Sophus/build")
@@ -16,9 +34,12 @@ set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0")
 set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -O0")
 
 
+
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/CMake_modules")
-message(Status "123${CMAKE_MODULE_PATH}")
+
 ############### dependencies ######################
+#ros
+include_directories(${catkin_INCLUDE_DIRS})
 # Eigen
 include_directories( "/usr/include/eigen3" )
 # OpenCV
