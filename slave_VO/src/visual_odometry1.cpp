@@ -1,21 +1,3 @@
-/*
- * <one line to give the program's name and a brief idea of what it does.>
- * Copyright (C) 2016  <copyright holder> <email>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- */
 
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
@@ -25,13 +7,12 @@
 
 #include "slaveslam/config.h"
 #include "slaveslam/visual_odometry.h"
-#include "slaveslam/g2o_types.h"
 
 namespace slaveslam
 {
 
 VisualOdometry::VisualOdometry() :
-    state_ ( INITIALIZING ), ref_ ( nullptr ), curr_ ( nullptr ), map_ ( new Map ), num_lost_ ( 0 ), num_inliers_ ( 0 ), matcher_flann_( new cv::flann::LshIndexParams(5,10,2) )
+    state_ ( INITIALIZING ), ref_ ( nullptr ), curr_ ( nullptr ), map_ ( new Map ), num_lost_ ( 0 ), num_inliers_ ( 0 )
 {
     num_of_features_    = Config::get<int> ( "number_of_features" );
     scale_factor_       = Config::get<double> ( "scale_factor" );
@@ -41,7 +22,6 @@ VisualOdometry::VisualOdometry() :
     min_inliers_        = Config::get<int> ( "min_inliers" );
     key_frame_min_rot   = Config::get<double> ( "keyframe_rotation" );
     key_frame_min_trans = Config::get<double> ( "keyframe_translation" );
-    map_point_erase_ratio_ = Config::get<double> ("map_point_erase_ratio");
     orb_ = cv::ORB::create ( num_of_features_, scale_factor_, level_pyramid_ );
 }
 
@@ -59,9 +39,10 @@ bool VisualOdometry::addFrame ( Frame::Ptr frame )
         state_ = OK;
         curr_ = ref_ = frame;
         map_->insertKeyFrame ( frame );
-        // extract features from first frame and add them into map
+        // extract features from first frame 
         extractKeyPoints();
         computeDescriptors();
+        // compute the 3d position of features in ref frame 
         setRef3DPoints();
         break;
     }
@@ -106,23 +87,20 @@ bool VisualOdometry::addFrame ( Frame::Ptr frame )
 
 void VisualOdometry::extractKeyPoints()
 {
-    boost::timer timer;
     orb_->detect ( curr_->color_, keypoints_curr_ );
-    cout<<"extract keypoints cost time: "<<timer.elapsed()<<endl;
 }
 
 void VisualOdometry::computeDescriptors()
 {
-    boost::timer timer;
     orb_->compute ( curr_->color_, keypoints_curr_, descriptors_curr_ );
-    cout<<"descriptor computation cost time: "<<timer.elapsed()<<endl;
 }
 
 void VisualOdometry::featureMatching()
 {
-    boost::timer timer;
+    // match desp_ref and desp_curr, use OpenCV's brute force match 
     vector<cv::DMatch> matches;
-    matcher_flann_.match( descriptors_ref_, descriptors_curr_, matches );
+    cv::BFMatcher matcher ( cv::NORM_HAMMING );
+    matcher.match ( descriptors_ref_, descriptors_curr_, matches );
     // select the best matches
     float min_dis = std::min_element (
                         matches.begin(), matches.end(),
@@ -139,8 +117,7 @@ void VisualOdometry::featureMatching()
             feature_matches_.push_back(m);
         }
     }
-    cout<<"good matches: "<<feature_matches_.size()<<endl;
-    cout<<"match cost time: "<<timer.elapsed()<<endl;
+    //cout<<"good matches: "<<feature_matches_.size()<<endl;
 }
 
 void VisualOdometry::setRef3DPoints()
@@ -156,6 +133,7 @@ void VisualOdometry::setRef3DPoints()
             Vector3d p_cam = ref_->camera_->pixel2camera(
                 Vector2d(keypoints_curr_[i].pt.x, keypoints_curr_[i].pt.y), d
             );
+            //std::cout<<p_cam(0)<<endl;
             pts_3d_ref_.push_back( cv::Point3f( p_cam(0,0), p_cam(1,0), p_cam(2,0) ));
             descriptors_ref_.push_back(descriptors_curr_.row(i));
         }
@@ -182,49 +160,10 @@ void VisualOdometry::poseEstimationPnP()
     Mat rvec, tvec, inliers;
     cv::solvePnPRansac( pts3d, pts2d, K, Mat(), rvec, tvec, false, 100, 4.0, 0.99, inliers );
     num_inliers_ = inliers.rows;
-    cout<<"pnp inliers: "<<num_inliers_<<endl;
+    //cout<<"pnp inliers: "<<num_inliers_<<endl;
     T_c_r_estimated_ = SE3(
         SO3(rvec.at<double>(0,0), rvec.at<double>(1,0), rvec.at<double>(2,0)), 
         Vector3d( tvec.at<double>(0,0), tvec.at<double>(1,0), tvec.at<double>(2,0))
-    );
-    
-    // using bundle adjustment to optimize the pose 
-    typedef g2o::BlockSolver<g2o::BlockSolverTraits<6,2>> Block;
-    Block::LinearSolverType* linearSolver = new g2o::LinearSolverDense<Block::PoseMatrixType>();
-    Block* solver_ptr = new Block( linearSolver );
-    g2o::OptimizationAlgorithmLevenberg* solver = new g2o::OptimizationAlgorithmLevenberg ( solver_ptr );
-    g2o::SparseOptimizer optimizer;
-    optimizer.setAlgorithm ( solver );
-    
-    g2o::VertexSE3Expmap* pose = new g2o::VertexSE3Expmap();
-    pose->setId ( 0 );
-    pose->setEstimate ( g2o::SE3Quat (
-        T_c_r_estimated_.rotation_matrix(), 
-        T_c_r_estimated_.translation()
-    ) );
-    optimizer.addVertex ( pose );
-
-    // edges
-    for ( int i=0; i<inliers.rows; i++ )
-    {
-        int index = inliers.at<int>(i,0);
-        // 3D -> 2D projection
-        EdgeProjectXYZ2UVPoseOnly* edge = new EdgeProjectXYZ2UVPoseOnly();
-        edge->setId(i);
-        edge->setVertex(0, pose);
-        edge->camera_ = curr_->camera_.get();
-        edge->point_ = Vector3d( pts3d[index].x, pts3d[index].y, pts3d[index].z );
-        edge->setMeasurement( Vector2d(pts2d[index].x, pts2d[index].y) );
-        edge->setInformation( Eigen::Matrix2d::Identity() );
-        optimizer.addEdge( edge );
-    }
-    
-    optimizer.initializeOptimization();
-    optimizer.optimize(10);
-    
-    T_c_r_estimated_ = SE3 (
-        pose->estimate().rotation(),
-        pose->estimate().translation()
     );
 }
 
