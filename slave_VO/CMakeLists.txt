@@ -10,6 +10,7 @@ find_package(catkin REQUIRED COMPONENTS
         message_generation
         cv_bridge
         message_filters
+
         )
 
 catkin_package(
@@ -20,7 +21,7 @@ catkin_package(
 )
 
 #set( CMAKE_CXX_COMPILER "g++" )
-#set( CMAKE_BUILD_TYPE "Release" )
+set( CMAKE_BUILD_TYPE "Release" )
 set( CMAKE_CXX_FLAGS "-std=c++11 -march=native -O3" )
 #set(OpenCV_DIR "~/source/opencv-4.1.0/OpenCVSDK/usr/local/lib/cmake/opencv4")
 set(OpenCV_DIR "/opt/ros/kinetic/share/OpenCV-3.3.1-dev")
@@ -33,7 +34,7 @@ set(Sophus_DIR "~/source/Sophus/build")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0")
 set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -O0")
 
-
+message(Status "222${G2O__LIBRARIES}")
 
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/CMake_modules")
 
