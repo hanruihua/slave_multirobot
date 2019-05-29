@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(mocap_optitrack)
+project(slave_mocap)
 
 find_package(catkin REQUIRED COMPONENTS roscpp std_msgs geometry_msgs tf roslaunch message_generation)
 
