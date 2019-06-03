@@ -5,7 +5,7 @@
 #include <iostream>
 #include "data_typedef.h"
 #include <geometry_msgs/Point.h>
-#include <uwb/uwb_position.h>
+#include <slave_msgs/uwb_position.h>
 #include <string.h>
 
 
@@ -22,10 +22,10 @@ int main (int argc, char** argv){
     ros::init(argc, argv, "uwb_node");
     ros::NodeHandle n;
     //  ros::Subscriber ground_truth = n.subscribe("robot01", 1000, callback);     //subscribe to mocap
-    ros::Publisher uwb_pub = n.advertise<uwb::uwb_position>("uwb_position", 1000);
+    ros::Publisher uwb_pub = n.advertise<slave_msgs::uwb_position>("uwb_position", 1000);
 
     //initialize
-    uwb::uwb_position uwb_out;
+    slave_msgs::uwb_position uwb_out;
     serial::Serial ros_ser;
     uint8 data_frame[128];
 
