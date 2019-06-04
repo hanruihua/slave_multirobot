@@ -122,7 +122,7 @@ int main ( int argc, char** argv )
     camera_coor.setRenderingProperty(cv::viz::LINE_WIDTH, 1.0);
     vis.showWidget( "World", world_coor );
     vis.showWidget( "Camera", camera_coor );
-    ros::Rate r(5);
+    ros::Rate r(40);
     while (ros::ok())
     {
 //        for ( int i=0; i<rgb_files.size(); i++ )
@@ -173,7 +173,7 @@ int main ( int argc, char** argv )
             T.rotate(rotation);
             T.pretranslate(trans);
             current_position = rotation * initial_position + trans;
-//           // initial_position = current_position;
+            //initial_position = current_position;
 //            //std::cout << current_position<< std::endl;
 //
             position.point.x = current_position(0);
