@@ -38,7 +38,7 @@ serial
 permission
 > sudo chmod 666 /dev/ttyUSB0
 
-##Run
+## Run
 Before run the launch file, you should allocate the "SlaveId" for this slave robot(in .zshrc or .bashrc)
 > echo "export NAME_SPACE=SlaveId" >> ~/.zshrc
   source ~/.zshrc 
