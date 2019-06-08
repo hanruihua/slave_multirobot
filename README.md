@@ -14,8 +14,8 @@ The program of multiple robot project running in slave robot
 
 ### For turtlebot2
 Install the ros package related to turtlebot
-> 1 sudo apt-get update
-  2 sudo apt-get install ros-kinetic-turtlebot ros-kinetic-turtlebot-apps ros-kinetic-turtlebot-interactions ros-kinetic-turtlebot-simulator ros-kinetic-kobuki-ftdi ros-kinetic-rocon-* ros-kinetic-ar-track-alvar-msgs
+> sudo apt-get update
+> sudo apt-get install ros-kinetic-turtlebot ros-kinetic-turtlebot-apps ros-kinetic-turtlebot-interactions ros-kinetic-turtlebot-simulator ros-kinetic-kobuki-ftdi ros-kinetic-rocon-* ros-kinetic-ar-track-alvar-msgs
 
 ### For visual odometry(slave_VO)
 
@@ -41,7 +41,7 @@ permission
 ## Run
 Before run the launch file, you should allocate the "SlaveId" for this slave robot(in .zshrc or .bashrc)
 > echo "export NAME_SPACE=SlaveId" >> ~/.zshrc
-  source ~/.zshrc 
+> source ~/.zshrc 
 
 Run the launch file in each slave robot, make sure the UWB, camera and motion capture are configured correctly
 
