@@ -1,5 +1,7 @@
-# Multiple robot slave
+# Multiple robots slave
 The program of multiple robot project running in slave robot 
+
+Please run the [Master program](https://github.com/hanruihua/master_multirobot) in master computer 
 
 ## Environment
 
@@ -12,12 +14,12 @@ The program of multiple robot project running in slave robot
 
 ## Requirement 
 
-### For turtlebot2
+#### For turtlebot2
 Install the ros package related to turtlebot
 > sudo apt-get update
 > sudo apt-get install ros-kinetic-turtlebot ros-kinetic-turtlebot-apps ros-kinetic-turtlebot-interactions ros-kinetic-turtlebot-simulator ros-kinetic-kobuki-ftdi ros-kinetic-rocon-* ros-kinetic-ar-track-alvar-msgs
 
-### For visual odometry(slave_VO)
+#### For visual odometry(slave_VO)
 
 Eigen
  > sudo apt-get install libeigen3-dev
@@ -31,7 +33,9 @@ OpenCV 3.1
  g2o
  > please use the order version the in https://github.com/hanruihua/slave_multirobot/tree/master/slave_VO/CMake_modules
  
-### For UWB
+#### For UWB
+*Attention*: The serial should have a correct configuration including the byte rate, data, ros publish rate.
+
 serial
 > sudo apt-get install ros-kinetic-serial
 
