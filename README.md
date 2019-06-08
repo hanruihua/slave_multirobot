@@ -34,7 +34,7 @@ OpenCV 3.1
  > please use the order version the in https://github.com/hanruihua/slave_multirobot/tree/master/slave_VO/CMake_modules
  
 #### For UWB
-*Attention*: The serial should have a correct configuration including the byte rate, data, ros publish rate.
+**Attention**: The serial should have a correct configuration including the byte rate, data, ros publish rate.
 
 serial
 > sudo apt-get install ros-kinetic-serial
