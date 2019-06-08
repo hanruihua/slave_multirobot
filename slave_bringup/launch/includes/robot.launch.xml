@@ -5,24 +5,22 @@
   <arg name="base"/>
   <arg name="stacks"/>
   <arg name="3d_sensor"/>
-  <arg name="ns"/>
   
-  <include file="$(find slave_bringup)/launch/includes/description.launch.xml">
+  <include file="$(find turtlebot_bringup)/launch/includes/description.launch.xml">
     <arg name="base" value="$(arg base)" />
     <arg name="stacks" value="$(arg stacks)" />
     <arg name="3d_sensor" value="$(arg 3d_sensor)" />
-    <arg name="ns" value="$(arg ns)" />
   </include>
 
   <!-- important generally, but specifically utilised by the current app manager -->  
   <param name="robot/name" value="$(optenv ROBOT turtlebot)"/>
   <param name="robot/type" value="turtlebot"/>
   
-  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" ns="$(arg ns)">
+
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
     <param name="publish_frequency" type="double" value="5.0" />
-    <param name="~tf_prefix" value="$(arg ns)"/>
   </node>
-  <node pkg="diagnostic_aggregator" type="aggregator_node" name="diagnostic_aggregator" ns="$(arg ns)">
+  <node pkg="diagnostic_aggregator" type="aggregator_node" name="diagnostic_aggregator" >
     <rosparam command="load" file="$(find turtlebot_bringup)/param/$(arg base)/diagnostics.yaml" />
   </node>
 </launch>
