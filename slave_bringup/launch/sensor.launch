@@ -1,4 +1,7 @@
+<<<<<<< 1f22ffd733635e488f2ac552076957ecbb5944c0
 <!-- add test git -->
+=======
+>>>>>>> update sensor launch
 <launch>
     <arg name="namespace" value="$(optenv NAME_SPACE SlaveDefault)" />
 
