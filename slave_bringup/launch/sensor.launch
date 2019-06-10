@@ -1,0 +1,14 @@
+<launch>
+    <arg name="namespace" value="$(optenv NAME_SPACE SlaveDefault)" />
+
+    <group ns="$(arg namespace)">
+        <param name="~tf_prefix" value="$(arg namespace)"/>
+	    <include file="$(find slave_bringup)/launch/includes/uwb/uwb.launch.xml">
+			<arg name="ns" value="$(arg namespace)" />
+	    </include>
+	    <include file="$(find slave_bringup)/launch/includes/msg_trans.launch.xml">
+			<arg name="ns" value="$(arg namespace)" />
+	    </include>
+    </group>
+
+</launch>
