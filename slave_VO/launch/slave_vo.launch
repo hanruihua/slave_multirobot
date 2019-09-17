@@ -1,0 +1,4 @@
+<launch>
+    <node name="slave_vo" pkg = "slave_vo" type = "run_vo" args="$(find slave_vo)/config/default.yaml" output="screen"/>
+
+</launch>
