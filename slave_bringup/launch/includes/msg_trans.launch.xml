@@ -1,9 +1,0 @@
-<launch>
-  <arg name="ns"/>
-  
-  <node pkg="slave_msgs" type="msg_trans" name="msg_trans_node" ns="$(arg ns)" respawn="true">
-
-
-  </node>
-  
-</launch>

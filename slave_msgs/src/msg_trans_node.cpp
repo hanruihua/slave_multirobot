@@ -37,7 +37,7 @@ int main(int argc, char **argv)
   ros::init(argc, argv, "msg_trans_node");
   ros::NodeHandle n;
 
-  ros::Publisher chatter_pub = n.advertise<geometry_msgs::Twist>("/turtle01/cmd_vel_mux/input/teleop", 1000);
+  ros::Publisher chatter_pub = n.advertise<geometry_msgs::Twist>("cmd_vel_mux/input/teleop", 1000);
   ros::Subscriber sub1=n.subscribe("/multiKey/cmd_vel", 1000, robotControl_callback);
 	
   ros::Rate loop_rate(10);

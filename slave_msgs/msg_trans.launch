@@ -1,0 +1,6 @@
+<launch>
+<arg name="namespace" value="$(optenv NAME_SPACE SlaveDefault)" />
+
+  <node pkg="slave_msgs" type="msg_trans" name="msg_trans_node" ns="$(arg namespace)" respawn="true">
+  </node>
+</launch>
