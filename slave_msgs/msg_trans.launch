@@ -2,7 +2,9 @@
 <arg name="namespace" value="$(optenv NAME_SPACE SlaveDefault)" />
 <arg name="robot_id" value="$(optenv ROBOT_ID d0)" />
 
-  <node pkg="slave_msgs" type="msg_trans" name="msg_trans_node" ns="$(arg namespace)" respawn="true" output="screen">
-  <param name = "id" type="string" value="$(arg robot_id)"/>  
+
+  <node pkg="slave_msgs" type="msg_trans" name="msg_trans_node" ns="$(arg namespace)" respawn="true"
+ output="screen">
+    <rosparam param="id">"$(arg robot_id)"</rosparam>
   </node>
 </launch>

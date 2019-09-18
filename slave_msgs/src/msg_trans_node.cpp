@@ -36,15 +36,15 @@ int main(int argc, char **argv)
 {
   
   ros::init(argc, argv, "msg_trans_node");
-  ros::NodeHandle n("~");
+  ros::NodeHandle n;
   std::string id="default";
 		
-	if (!n.hasParam("id"))
+	if (!n.hasParam("/id"))
 	{
 		ros::param::param<std::string>("id", id, "0");	
 		ROS_INFO("No id set, default 0");
 	}	
-  n.getParam("id",id);
+  n.getParam("/id",id);
   std::cout << "id are set to " << id  << std::endl;
   ros::Publisher chatter_pub = n.advertise<geometry_msgs::Twist>("cmd_vel_mux/input/teleop", 1000);
   ros::Subscriber sub1=n.subscribe("/multiKey/cmd_vel", 1000, robotControl_callback);
