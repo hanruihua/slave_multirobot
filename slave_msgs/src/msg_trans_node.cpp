@@ -37,7 +37,6 @@ int main(int argc, char **argv)
   
   ros::init(argc, argv, "msg_trans_node");
   ros::NodeHandle n;
-  std::string id="default";
 		
 	if (!n.hasParam("/id"))
 	{
