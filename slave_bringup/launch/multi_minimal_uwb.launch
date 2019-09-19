@@ -13,7 +13,7 @@
         
         <node pkg="nlink" type="linktrack_publisher" name="slave_uwb" args="/dev/uwb_node 921600"/>	
         
-        <node pkg="slave_msgs" type="msg_trans" name="msg_trans_node" ns="$(arg namespace)" respawn="true"
+        <node pkg="slave_msgs" type="msg_trans" name="msg_trans_node" respawn="true"
         output="screen"/>
     </group>
 </launch>
