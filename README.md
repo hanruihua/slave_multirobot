@@ -55,7 +55,7 @@ Run the launch file in each slave robot, make sure the UWB, camera and motion ca
 catkin_make -DCATKIN_BLACKLIST_PACKAGES="slave_vo"
 sudo sh uwb_serial.sh
 gedit multi_minimal_uwb.launch
-rosrun robot_upstart install slave_bringup/launch/multi_minimal_uwb.launch --master http://192.168.0.111:11311
+
 
 
 
