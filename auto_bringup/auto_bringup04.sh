@@ -9,4 +9,4 @@ export TURTLEBOT_3D_SENSOR=kinect
 export NAME_SPACE=Slave04
 export ROBOT_ID=4
 
-roslaunch slave_bringup multi_minimal_uwb.launch
+roslaunch --wait slave_bringup multi_minimal_uwb.launch
