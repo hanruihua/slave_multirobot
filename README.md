@@ -52,9 +52,11 @@ Run the launch file in each slave robot, make sure the UWB, camera and motion ca
 > roslaunch slave_bringup multirobot_bringup.launch
 
 ### note(temp)
+git pull in slave_multirobot
 catkin_make -DCATKIN_BLACKLIST_PACKAGES="slave_vo"
+cd ~/catkin_ws/src/slave_multirobot/driver
 sudo sh uwb_serial.sh
-gedit multi_minimal_uwb.launch
+modify bringup
 
 
 
