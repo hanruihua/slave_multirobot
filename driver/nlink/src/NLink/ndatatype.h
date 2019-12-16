@@ -5,6 +5,8 @@
 #include <cassert>
 #include <cstdint>
 #include <string.h>
+#include <numeric>
+#include <string>
 
 extern const bool kIsLittleEndianFormat;
 

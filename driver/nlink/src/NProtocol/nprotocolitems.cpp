@@ -1,6 +1,8 @@
 ﻿#include "nprotocolitems.h"
 #include <cassert>
 #include <string.h>
+#include <numeric>
+
 NBytesOfProtocolItem::NBytesOfProtocolItem(size_t bytesOfValue)
     : NProtocolItemBase(), NCountInterface(bytesOfValue) {
   setBytes(bytesOfValue);

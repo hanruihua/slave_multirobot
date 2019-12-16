@@ -3,6 +3,7 @@
 
 #include "../ndatatype.h"
 #include <cassert>
+#include <vector>
 
 namespace LinkTrack {
 
