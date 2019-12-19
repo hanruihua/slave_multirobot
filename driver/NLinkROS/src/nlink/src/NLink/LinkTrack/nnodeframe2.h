@@ -3,6 +3,7 @@
 
 #include "../../NProtocol/nprotocolbase.h"
 #include "ncommon.h"
+#include "ros/time.h"
 namespace LinkTrack {
 
 class NNodeFrame2 : public NProtocolBase {
@@ -28,6 +29,7 @@ public:
     DataType::Role role{};
     uint8_t id{};
     uint32_t systemTime{};
+    //ros::Time systemTime{};
     DataType::EOP eop{};
     DataType::Position position{};
     DataType::Velocity velocity{};
@@ -41,7 +43,7 @@ public:
     DataType::SupplyVoltage supplyVoltage{};
     uint8_t validNodeCount{};
     //... nodes
-    //        uint8_t checkSum{};
+    //uint8_t checkSum{};
   };
 #pragma pack()
 
@@ -55,7 +57,7 @@ private:
   static const size_t skFrontFixedPartLength_ = 119; //不包含nodes,sumCheck
 
   static_assert((sizeof(Frame_t) == skFrontFixedPartLength_), "Error");
-
+  //static_assert((sizeof(Frame_t::checkSum) == skSizeOfCheckSum_), "Error");
   Frame_t data_;
   std::vector<Node_t> currentNodes_; //当前数据帧中节点
 };

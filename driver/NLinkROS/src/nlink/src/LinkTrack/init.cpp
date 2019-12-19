@@ -182,7 +182,8 @@ void Init::initNodeFrame2(NFrameExtraction *frameExtraction) {
 
     msgData.role = data.role;
     msgData.id = data.id;
-    msgData.systemTime = data.systemTime;
+    //msgData.systemTime = data.systemTime;
+    msgData.systemTime = ros::Time::now();
     ASSIGN_VECTOR_3D(msgData.eop, data.eop)
     ASSIGN_VECTOR_3D(msgData.position, data.position)
     ASSIGN_VECTOR_3D(msgData.velocity, data.velocity)

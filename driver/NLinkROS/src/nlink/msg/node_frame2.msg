@@ -1,6 +1,6 @@
 uint8 role
 uint8 id
-uint32 systemTime
+time systemTime
 vector3d_t position
 vector3d_t eop
 vector3d_t velocity
