@@ -2,6 +2,7 @@
 #define LINKTRACKNCOMMON_H
 
 #include "../ndatatype.h"
+#include <vector>
 
 namespace LinkTrack {
 

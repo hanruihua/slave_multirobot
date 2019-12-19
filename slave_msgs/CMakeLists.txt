@@ -5,7 +5,6 @@ set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR})
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
-  #slave_msgs
   std_msgs
   geometry_msgs
   message_generation
@@ -17,10 +16,11 @@ include_directories(
 )
 
 add_message_files(
-  DIRECTORY msgs
+  DIRECTORY msg
   FILES
   slave_VelocityID.msg
   uwb_position.msg
+  robot_info.msg
 )
 
 
