@@ -10,7 +10,7 @@
 #include <nlink/node_frame0.h>
 #include <nlink/node_frame1.h>
 #include <nlink/node_frame2.h>
-#include <nlink/tag_frame0.h>
+#include "nlink/tag_frame0.h"
 #include <ros/ros.h>
 
 #define ASSIGN_VECTOR_3D(dst, src)                                             \
@@ -167,6 +167,7 @@ void Init::initNodeFrame1(NFrameExtraction *frameExtraction) {
 
 void Init::initNodeFrame2(NFrameExtraction *frameExtraction) {
 
+    int seq = 0;
   auto protocol = new NNodeFrame2;
   frameExtraction->appendProtocol(protocol);
   protocol->setDataHandle([=] {
@@ -183,7 +184,9 @@ void Init::initNodeFrame2(NFrameExtraction *frameExtraction) {
     msgData.role = data.role;
     msgData.id = data.id;
     //msgData.systemTime = data.systemTime;
-    msgData.systemTime = ros::Time::now();
+    msgData.header.stamp = ros::Time::now();
+    msgData.header.frame_id = "/base_link";
+    msgData.header.seq = seq+1;
     ASSIGN_VECTOR_3D(msgData.eop, data.eop)
     ASSIGN_VECTOR_3D(msgData.position, data.position)
     ASSIGN_VECTOR_3D(msgData.velocity, data.velocity)
