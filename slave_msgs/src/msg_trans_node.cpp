@@ -14,8 +14,7 @@ geometry_msgs::Vector3  robot_linear;
 geometry_msgs::Vector3  robot_angular;
 geometry_msgs::Twist msg;
 
-ros::NodeHandle n;
- ros::Publisher chatter_pub = n.advertise<geometry_msgs::Twist>("cmd_vel_mux/input/teleop", 1000);
+ros::Publisher chatter_pub;
 
 void robotControl_callback( slave_msgs::slave_VelocityID msgInput)
 {
@@ -29,7 +28,7 @@ void robotControl_callback( slave_msgs::slave_VelocityID msgInput)
       
       msg.linear = robot_linear;
       msg.angular = robot_angular;
-	  chatter_pub.publish(msg); 
+	    chatter_pub.publish(msg); 
       ROS_INFO("Successfully");
 	    
 	} 
@@ -40,7 +39,8 @@ int main(int argc, char **argv)
 {
   
   ros::init(argc, argv, "msg_trans_node");
-  
+  ros::NodeHandle n;
+  chatter_pub = n.advertise<geometry_msgs::Twist>("cmd_vel_mux/input/teleop", 1000);
 		
 	if (!n.hasParam("/id"))
 	{
