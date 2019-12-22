@@ -7,6 +7,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   geometry_msgs
+  gazebo_msgs
   message_generation
 )
 
@@ -18,9 +19,13 @@ include_directories(
 add_message_files(
   DIRECTORY msg
   FILES
-  slave_VelocityID.msg
+  multi_vel.msg
   uwb_position.msg
-  robot_info.msg
+  robot_state.msg
+  # node_frame2.msg
+  # vector3d_t.msg
+  # system_info.msg
+  # node2_t.msg
 )
 
 
@@ -28,13 +33,14 @@ generate_messages(
   DEPENDENCIES
   std_msgs
   geometry_msgs
+  gazebo_msgs
 )
 
 catkin_package(CATKIN_DEPENDS message_runtime)
 
-add_executable(msg_trans src/msg_trans_node.cpp)
-target_link_libraries(msg_trans ${catkin_LIBRARIES})
-#add_dependencies(msg_trans ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-add_dependencies(msg_trans slave_msgs_generate_messages_cpp)
+add_executable(trans2robot_node src/trans2robot.cpp)
+target_link_libraries(trans2robot_node ${catkin_LIBRARIES})
+# add_dependencies(msg_trans ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(trans2robot_node slave_msgs_generate_messages_cpp)
 
 
