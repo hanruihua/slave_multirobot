@@ -3,21 +3,21 @@ The program of multiple robot project running in slave robot
 
 Please run the [Master program](https://github.com/hanruihua/master_multirobot) in master computer 
 
-## Environment
+## Test Environment
 
 - robot -- turtlebot2
-- system -- ubuntu 16.06
+- system -- ubuntu 16.06 
 - UWB -- inffuture
 - camera -- kinect v1 or v2
 - motion capture -- Optitrack
-- platform -- ros kinetic
+- platform -- ros kinetic/ melodic
 
-## Requirement 
+## Installation
 
 #### For turtlebot2
 Install the ros package related to turtlebot
-> sudo apt-get update
-> sudo apt-get install ros-kinetic-turtlebot ros-kinetic-turtlebot-apps ros-kinetic-turtlebot-interactions ros-kinetic-turtlebot-simulator ros-kinetic-kobuki-ftdi ros-kinetic-rocon-* ros-kinetic-ar-track-alvar-msgs
+> sudo apt-get update  
+> sudo apt-get install ros-kinetic-turtlebot ros-kinetic-turtlebot-apps ros-kinetic-turtlebot-interactions ros-kinetic-turtlebot-simulator ros-kinetic-kobuki-ftdi ros-kinetic-rocon-* ros-kinetic-ar-track-alvar-msgs  
 
 #### For visual odometry(slave_VO)
 
