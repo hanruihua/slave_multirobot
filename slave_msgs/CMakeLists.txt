@@ -19,7 +19,6 @@ include_directories(
 add_message_files(
   DIRECTORY msg
   FILES
-  multi_vel.msg
   uwb_position.msg
   robot_state.msg
   # node_frame2.msg

@@ -28,7 +28,7 @@ def robot_msg_callback(*args):
     robot_state_msg.header.frame_id = "global"
 
     # name
-    model_state.model_name = "agent" + str(robot_id)
+    model_state.model_name = "Slave" + str(robot_id)
 
     # pose
     pose = Pose()
