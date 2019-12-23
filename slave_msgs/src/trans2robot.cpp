@@ -14,6 +14,7 @@ float cal_yaw(geometry_msgs::Quaternion quater);
 int cout_flag = 0;
 float angular_max = 1.2;
 float pi = 3.1415926;
+float control = 0.0;
 
 std::string robot_name = "agent0";
 
@@ -23,6 +24,8 @@ geometry_msgs::Vector3 msg_robot_angular;
 geometry_msgs::Twist msg;
 
 ros::Publisher chatter_pub;
+
+float speed_smoothy(float target, float control, float acc_inc, float acc_dec);
 
 void robotControl_callback(const gazebo_msgs::WorldState::ConstPtr &msgInput)
 {
@@ -49,18 +52,21 @@ void robotControl_callback(const gazebo_msgs::WorldState::ConstPtr &msgInput)
       float rvo_x = msg_twist.linear.x;
       float rvo_y = msg_twist.linear.y;
 
+      float linear_x = 0.0;
+      float angular_z = 0.0;
+
       if (rvo_x == 0.0f && rvo_y == 0.0f)
       {
-        pub_twist.linear.x = 0;
-        pub_twist.angular.z = 0;
+        linear_x = 0;
+        angular_z = 0;
       }
       else
       {
         double speed = sqrt(pow(rvo_x, 2) + pow(rvo_y, 2));
         if (speed < 0.01)
-          pub_twist.linear.x = 0;
+          linear_x = 0;
         else
-          pub_twist.linear.x = speed;
+          linear_x = speed;
 
         if (rvo_y == 0)
           angle_vel = 0;
@@ -75,18 +81,24 @@ void robotControl_callback(const gazebo_msgs::WorldState::ConstPtr &msgInput)
         // float angular_vel = fabsf(angular_max * float(diff/pi));
 
         if (diff > 0.1)
-          pub_twist.angular.z = diff < pi ? -angular_max : angular_max;
+          angular_z = diff < pi ? -angular_max : angular_max;
         else if (diff < -0.1)
-          pub_twist.angular.z = diff < -pi ? -angular_max : angular_max;
+          angular_z = diff < -pi ? -angular_max : angular_max;
         else
-          pub_twist.angular.z = 0;
+          angular_z = 0;
+
+          control = speed_smoothy(linear_x, control, 0.05, 0.05);
+
+          pub_twist.linear.x = control;
+          pub_twist.angular.z = angular_z;
       }
     }
     else
     {
+      control = speed_smoothy(msg_twist.linear.x, control, 0.05, 0.05);
 
       pub_twist.angular.z = msg_twist.angular.z;
-      pub_twist.linear.x = msg_twist.linear.x;
+      pub_twist.linear.x = control;
     }
 
     chatter_pub.publish(pub_twist);
@@ -109,6 +121,21 @@ float cal_yaw(geometry_msgs::Quaternion quater)
   float raw = std::atan2(2 * (w * z + x * y), 1 - 2 * (pow(z, 2) + pow(y, 2)));
   return raw;
 }
+
+float speed_smoothy(float target, float control, float acc_inc, float acc_dec)
+{
+   if (target > control)
+        control = std::min(target, control + acc_inc);
+   else if (target < control) 
+        control = std::max(target, control - acc_dec);
+   else
+        control = target;
+
+    return control;
+
+}
+
+
 
 // input robot id in argv
 int main(int argc, char **argv)
