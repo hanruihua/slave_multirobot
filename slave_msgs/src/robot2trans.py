@@ -50,10 +50,17 @@ def robot_msg_callback(*args):
 def robot_state_publish():
     rospy.init_node('robot2trans', anonymous=True)
     rate=rospy.Rate(50)
+<<<<<<< HEAD
     # should input the robot name from commond line
     global robot_name = sys.argv[1]
     topic_name_odom = robot_name+"/odom"
     topic_name_uwb =  robot_name+"/nlink_linktrack_nodeframe2"   
+=======
+    # should input the robot id from commond line
+    global robot_id = int(sys.argv[1])
+    topic_name_odom = "agent"+robot_id+"/odom"
+    topic_name_uwb =  "agent"+robot_id+"/nlink_linktrack_nodeframe2"   
+>>>>>>> dd44aacc6a432cdbe4bafafc4358c06fef8555d6
     list_info_sub.append(message_filters.Subscriber(topic_name_uwb, node_frame2))
     list_info_sub.append(message_filters.Subscriber(topic_name_odom, Odometry))
 

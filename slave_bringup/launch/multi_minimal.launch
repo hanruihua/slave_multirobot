@@ -1,14 +1,13 @@
 <launch>
     <arg name="namespace" value="$(optenv NAME_SPACE SlaveDefault)" />
 
-    <param name="odom"  value="$(arg namespace)/odom" />
-    <param name="base_frame"  value="$(arg namespace)/base_footprint" />
+    <param name="odom" value="$(arg namespace)/odom" />
+    <param name="base_frame" value="$(arg namespace)/base_footprint" />
 
     <group ns="$(arg namespace)">
-        <param name="tf_prefix" value="$(arg namespace)"/>
-        <include file="$(find turtlebot_bringup)/launch/minimal.launch"/>
+        <param name="tf_prefix" value="$(arg namespace)" />
+        <include file="$(find turtlebot_bringup)/launch/minimal.launch" />
     </group>
 
-    <include file="$(find slave_msgs)/msg_trans.launch">
-     </include>
+    <include file="$(find slave_msgs)/msg_trans.launch"></include>
 </launch>

@@ -1,9 +1,0 @@
-
-<launch>
-  <arg name="ns"/>
-  
-  <node pkg="slave_uwb" type="slave_uwb" name="uwb_node" ns="$(arg ns)" respawn="true">
-
-  </node>
-  
-</launch>
