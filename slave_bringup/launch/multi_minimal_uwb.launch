@@ -1,19 +1,18 @@
 <launch>
-    <arg name="namespace" value="$(optenv NAME_SPACE Slave00)" />
-    <arg name="robot_id" value="$(optenv ROBOT_ID 0)" />
-    
+    <arg name="namespace" value="$(optenv NAME_SPACE agent0)" />
+
     <param name="odom"  value="$(arg namespace)/odom" />
     <param name="base_frame"  value="$(arg namespace)/base_footprint" />
        
-    <rosparam param="id" subst_value="True">"$(arg robot_id)"</rosparam>
-
     <group ns="$(arg namespace)">
         <param name="tf_prefix" value="$(arg namespace)"/>
         <include file="$(find turtlebot_bringup)/launch/minimal.launch"/>
         
         <node pkg="nlink" type="linktrack_publisher" name="slave_uwb" args="/dev/uwb_node 921600" respawn="true" />	
         
-        <node pkg="slave_msgs" type="msg_trans" name="msg_trans_node" respawn="true"
-        output="screen"/>
+        <node pkg="slave_msgs" type="robot2trans" name="robot2trans" args="$(arg namespace)" respawn="true" output="screen"/>
+
+        <node pkg="slave_msgs" type="trans2robot_node" name="trans2robot" args="$(arg namespace)" respawn="true" output="screen"/>
+
     </group>
 </launch>

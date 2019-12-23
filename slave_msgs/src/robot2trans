@@ -4,15 +4,15 @@ import sys
 import rospy
 from nav_msgs.msg import Odometry
 from slave_msgs.msg import robot_state
-from slave_msgs.msg import node_frame2
+from nlink.msg import node_frame2
 from geometry_msgs.msg import Pose
 from geometry_msgs.msg import Twist
 from gazebo_msgs.msg import ModelState
 
-pub_robot_state = rospy.Publisher('/robot_state', robot_state, queue_size=10)
+pub_robot_state = rospy.Publisher('robot_state', robot_state, queue_size=10)
 seq = 0
 robot_name = "agent"
-
+list_info_sub = []
 def robot_msg_callback(*args):
 
     model_state = ModelState()
@@ -50,24 +50,25 @@ def robot_msg_callback(*args):
 def robot_state_publish():
     rospy.init_node('robot2trans', anonymous=True)
     rate=rospy.Rate(50)
-<<<<<<< HEAD
     # should input the robot name from commond line
-    global robot_name = sys.argv[1]
-    topic_name_odom = robot_name+"/odom"
-    topic_name_uwb =  robot_name+"/nlink_linktrack_nodeframe2"   
-=======
-    # should input the robot id from commond line
-    global robot_id = int(sys.argv[1])
-    topic_name_odom = "agent"+robot_id+"/odom"
-    topic_name_uwb =  "agent"+robot_id+"/nlink_linktrack_nodeframe2"   
->>>>>>> dd44aacc6a432cdbe4bafafc4358c06fef8555d6
+    global robot_name 
+
+    if (len(sys.argv)<2):
+        logerr_once("Please input the name of agent")
+    
+    robot_name = sys.argv[1]
+    topic_name_odom = "/" + robot_name+"/odom"
+    topic_name_uwb =  "/" + robot_name+"/nlink_linktrack_nodeframe2"   
     list_info_sub.append(message_filters.Subscriber(topic_name_uwb, node_frame2))
     list_info_sub.append(message_filters.Subscriber(topic_name_odom, Odometry))
 
     ts_info = message_filters.ApproximateTimeSynchronizer(list_info_sub, 10, 0.1)
     ts_info.registerCallback(robot_msg_callback)
 
+    print("Configure successfully, waiting for odom and uwn message")
+
     rospy.spin()
+
 
     while not rospy.is_shutdown():
         rate.sleep()

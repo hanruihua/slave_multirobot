@@ -9,5 +9,4 @@
         <include file="$(find turtlebot_bringup)/launch/minimal.launch" />
     </group>
 
-    <include file="$(find slave_msgs)/msg_trans.launch"></include>
 </launch>
