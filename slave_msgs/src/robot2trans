@@ -62,7 +62,7 @@ def robot_state_publish():
     list_info_sub.append(message_filters.Subscriber(topic_name_uwb, node_frame2))
     list_info_sub.append(message_filters.Subscriber(topic_name_odom, Odometry))
 
-    ts_info = message_filters.ApproximateTimeSynchronizer(list_info_sub, 10, 0.1)
+    ts_info = message_filters.ApproximateTimeSynchronizer(list_info_sub, 10, 1)
     ts_info.registerCallback(robot_msg_callback)
 
     print("Configure successfully, waiting for odom and uwn message")
