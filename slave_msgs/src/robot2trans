@@ -43,7 +43,7 @@ def robot_msg_callback(*args):
 
     robot_state_msg.modelstate = model_state
 
-    pub_info.publish(robot_state_msg)
+    pub_robot_state.publish(robot_state_msg)
 
     print("robot2trans: publish robot information messages successfully")
 
