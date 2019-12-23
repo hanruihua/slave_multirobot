@@ -52,8 +52,8 @@ def robot_state_publish():
     rate=rospy.Rate(50)
     # should input the robot id from commond line
     global robot_id = int(sys.argv[1])
-    topic_name_odom = "Slave0"+robot_id+"/odom"
-    topic_name_uwb =  "Slave0"+robot_id+"/nlink_linktrack_nodeframe2"   
+    topic_name_odom = "agent"+robot_id+"/odom"
+    topic_name_uwb =  "agent"+robot_id+"/nlink_linktrack_nodeframe2"   
     list_info_sub.append(message_filters.Subscriber(topic_name_uwb, node_frame2))
     list_info_sub.append(message_filters.Subscriber(topic_name_odom, Odometry))
 
