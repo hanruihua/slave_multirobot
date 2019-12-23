@@ -11,7 +11,7 @@ from gazebo_msgs.msg import ModelState
 
 pub_robot_state = rospy.Publisher('/robot_state', robot_state, queue_size=10)
 seq = 0
-robot_id = 0
+robot_name = "agent"
 
 def robot_msg_callback(*args):
 
@@ -28,7 +28,7 @@ def robot_msg_callback(*args):
     robot_state_msg.header.frame_id = "global"
 
     # name
-    model_state.model_name = "Slave" + str(robot_id)
+    model_state.model_name = robot_name
 
     # pose
     pose = Pose()
@@ -50,10 +50,10 @@ def robot_msg_callback(*args):
 def robot_state_publish():
     rospy.init_node('robot2trans', anonymous=True)
     rate=rospy.Rate(50)
-    # should input the robot id from commond line
-    global robot_id = int(sys.argv[1])
-    topic_name_odom = "Slave0"+robot_id+"/odom"
-    topic_name_uwb =  "Slave0"+robot_id+"/nlink_linktrack_nodeframe2"   
+    # should input the robot name from commond line
+    global robot_name = sys.argv[1]
+    topic_name_odom = robot_name+"/odom"
+    topic_name_uwb =  robot_name+"/nlink_linktrack_nodeframe2"   
     list_info_sub.append(message_filters.Subscriber(topic_name_uwb, node_frame2))
     list_info_sub.append(message_filters.Subscriber(topic_name_odom, Odometry))
 
