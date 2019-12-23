@@ -1,4 +1,10 @@
 #! /bin/bash
+
+cd ~/catkin_ws/src/slave_multirobot
+git pull
+cd ~/catkin_ws
+catkin_make -DCATKIN_BLACKLIST_PACKAGES="slave_vo"
+
 source /opt/ros/kinetic/setup.sh
 source ~/catkin_ws/devel/setup.bash
 
@@ -9,4 +15,6 @@ export TURTLEBOT_3D_SENSOR=kinect
 export NAME_SPACE=Slave01
 export ROBOT_ID=1
 
-roslaunch --wait slave_bringup multi_minimal_uwb.launch
+env
+
+#roslaunch --wait slave_bringup multi_minimal_uwb.launch
