@@ -13,4 +13,6 @@ catkin_make -DCATKIN_BLACKLIST_PACKAGES="slave_vo"
 
 source $(locate $1)
 
+env | grep NAME_SPACE
+
 roslaunch --wait slave_bringup multi_minimal_uwb.launch
