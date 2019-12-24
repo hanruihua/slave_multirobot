@@ -23,7 +23,7 @@ Install the ros package related to turtlebot
 ### For visual odometry(slave_VO)
 
 Eigen
- > sudo apt-get install libeigen3-dev
+ > sudo apt-get install libeigen3-dev  
 
 Sophus
  > git clone https://github.com/strasdat/Sophus.git
@@ -46,7 +46,7 @@ modify serial rule
 > sudo sh uwb_serial.sh  
 
 ### Configure ros network and environment parameter
-For version 1:
+
 Before run the launch file, you should allocate the "SlaveID"(Slave01 Slave02 ...) for this slave robot(in .zshrc or .bashrc)
 
 template:
@@ -70,8 +70,6 @@ example:
     - export NAME_SPACE=Slave07
     - export ROBOT_ID=7
 
-For version 2:
-Skip this part.
 ## Build
 
 > cd ~/catkin_ws
@@ -94,7 +92,7 @@ PowerBoot:
 
 You can skip the configure, build and run parts, simply add the auto_bringup.sh to the startup application by 
 
->gnome-terminal -x /home/turtlebot/catkin_ws/src/slave_multirobot/slave_bringup/auto_bringup/auto_bringup.sh 'my_inc01'  
+>gnome-terminal -x /home/turtlebot/catkin_ws/src/slave_multirobot/slave_bringup/auto_bringup/auto_bringup.sh 'my_inc01'    
 >sudo updatedb  
 
 Then, when the robot startup, it will automatically pull the latest code, build it and run the launch file.
