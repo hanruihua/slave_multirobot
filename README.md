@@ -8,8 +8,6 @@ Please run the [Master program](https://github.com/hanruihua/master_multirobot) 
 - robot -- turtlebot2
 - system -- ubuntu 16.04 
 - UWB -- nooploop
-- camera -- kinect v1 or v2
-- motion capture -- Optitrack
 - platform -- ros kinetic/ melodic
 
 ## Installation
@@ -75,7 +73,7 @@ example:
 For version 2:
 Skip this part.
 ## Build
-For version 1:
+
 > cd ~/catkin_ws
 > catkin_build
 
@@ -84,27 +82,23 @@ If you do not need certain package, you can use catkin_make -DCATKIN_BLACKLIST_P
 example: 
      catkin_make -DCATKIN_BLACKLIST_PACKAGES="slave_vo"
 
-For version 2:
-Skip this part.
 ## Run
-For version 1:
+
 Run the launch file in each slave robot to launch each turtlebot
 > roslaunch slave_bringup multi_minimal.launch
 
-For version 2: 
-**Note** In version 2, we provide the configure files. In this version, the SlaveID is changed to agentID, we don't need the ROBOT_ID anymore.
+with UWB
+> roslaunch slave_bringup multi_minimal_uwb.launch
+
+PowerBoot:
 
 You can skip the configure, build and run parts, simply add the auto_bringup.sh to the startup application by 
 
->gnome-terminal -x /home/turtlebot/catkin_ws/src/slave_multirobot/slave_bringup/auto_bringup/auto_bringup.sh 'my_inc01'
->sudo updatedb
+>gnome-terminal -x /home/turtlebot/catkin_ws/src/slave_multirobot/slave_bringup/auto_bringup/auto_bringup.sh 'my_inc01'  
+>sudo updatedb  
 
 Then, when the robot startup, it will automatically pull the latest code, build it and run the launch file.
 
-### note(temp)
-> git pull in slave_multirobot  
-> catkin_make -DCATKIN_BLACKLIST_PACKAGES="slave_vo"  
-> cd ~/catkin_ws/src/slave_multirobot/driver  
  
  
 
