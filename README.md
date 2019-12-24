@@ -21,7 +21,7 @@ Install the ros package related to turtlebot
 > sudo apt-get update  
 > sudo apt-get install ros-kinetic-turtlebot ros-kinetic-turtlebot-apps ros-kinetic-turtlebot-interactions ros-kinetic-turtlebot-simulator ros-kinetic-kobuki-ftdi ros-kinetic-rocon-* ros-kinetic-ar-track-alvar-msgs   
 
-### For visual odometry(slave_VO)
+### For visual odometry(To be modified)
 
 Eigen
  > sudo apt-get install libeigen3-dev    
