@@ -19,20 +19,21 @@ Please run the [Master program](https://github.com/hanruihua/master_multirobot) 
 
 Install the ros package related to turtlebot
 > sudo apt-get update  
-> sudo apt-get install ros-kinetic-turtlebot ros-kinetic-turtlebot-apps ros-kinetic-turtlebot-interactions ros-kinetic-turtlebot-simulator ros-kinetic-kobuki-ftdi ros-kinetic-rocon-* ros-kinetic-ar-track-alvar-msgs  
+> sudo apt-get install ros-kinetic-turtlebot ros-kinetic-turtlebot-apps ros-kinetic-turtlebot-interactions ros-kinetic-turtlebot-simulator ros-kinetic-kobuki-ftdi ros-kinetic-rocon-* ros-kinetic-ar-track-alvar-msgs   
+
 ### For visual odometry(slave_VO)
 
 Eigen
- > sudo apt-get install libeigen3-dev  
+ > sudo apt-get install libeigen3-dev    
 
 Sophus
- > git clone https://github.com/strasdat/Sophus.git
+ > git clone https://github.com/strasdat/Sophus.git  
 
 OpenCV 3.1
- > in ros library
+ > in ros library  
  
  g2o
- > please use the order version the in https://github.com/hanruihua/slave_multirobot/tree/master/slave_VO/CMake_modules
+ > please use the order version the in https://github.com/hanruihua/slave_multirobot/tree/master/slave_VO/CMake_modules  
  
 ### For UWB (nlink)
 
@@ -53,10 +54,8 @@ template:
 
 > echo "export ROS_MASTER_URI=http://master_ip:11311" >> ~/.zshrc   
 > echo "export ROS_HOSTNAME=localhost_ip" >> ~/.zshrc  
-> echo "export ROS_IP=localhost_ip" >> ~/.zshrc   
-> echo "export TURTLEBOT_3D_SENSOR=kinect" >> ~/.zshrc  
-> echo "export NAME_SPACE=SlaveID" >> ~/.zshrc
-> echo "export ROBOT_ID=id" >> ~/.zshrc
+> echo "export ROS_IP=localhost_ip" >> ~/.zshrc       
+> echo "export NAME_SPACE=agentID" >> ~/.zshrc  
 
 > source ~/.zshrc  
 
@@ -66,9 +65,7 @@ example:
     - export ROS_MASTER_URI=http://192.168.0.111:11311  
     - export ROS_HOSTNAME=192.168.0.114  
     - export ROS_IP=192.168.0.114  
-    - export TURTLEBOT_3D_SENSOR=kinect  
-    - export NAME_SPACE=Slave07
-    - export ROBOT_ID=7
+    - export NAME_SPACE=agent7
 
 ## Build
 
