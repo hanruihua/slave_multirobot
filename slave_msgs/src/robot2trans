@@ -13,6 +13,7 @@ pub_robot_state = rospy.Publisher('robot_state', robot_state, queue_size=10)
 seq = 0
 robot_name = "agent"
 list_info_sub = []
+
 def robot_msg_callback(*args):
 
     model_state = ModelState()
@@ -48,6 +49,7 @@ def robot_msg_callback(*args):
     print("robot2trans: publish robot information messages successfully")
 
 def robot_state_publish():
+    
     rospy.init_node('robot2trans', anonymous=True)
     rate=rospy.Rate(50)
     # should input the robot name from commond line

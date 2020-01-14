@@ -135,8 +135,6 @@ float speed_smoothy(float target, float control, float acc_inc, float acc_dec)
 
 }
 
-
-
 // input robot id in argv
 int main(int argc, char **argv)
 {
