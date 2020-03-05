@@ -14,7 +14,8 @@ float cal_yaw(geometry_msgs::Quaternion quater);
 int cout_flag = 0;
 float angular_max = 1.2;
 float pi = 3.1415926;
-float control = 0.0;
+float control_linear = 0.0;
+float control_angular = 0.0;
 
 std::string robot_name = "agent0";
 
@@ -87,18 +88,20 @@ void robotControl_callback(const gazebo_msgs::WorldState::ConstPtr &msgInput)
         else
           angular_z = 0;
 
-          control = speed_smoothy(linear_x, control, 0.05, 0.05);
+          control_linear = speed_smoothy(linear_x, control_linear, 0.05, 0.05);
+          control_angular = speed_smoothy(angular_z, control_angular, 0.1, 0.1);
 
-          pub_twist.linear.x = control;
-          pub_twist.angular.z = angular_z;
+          pub_twist.linear.x = control_linear;
+          pub_twist.angular.z = control_angular;
       }
     }
     else
     {
-      control = speed_smoothy(msg_twist.linear.x, control, 0.05, 0.05);
+      control_linear = speed_smoothy(msg_twist.linear.x, control_linear, 0.05, 0.05);
+      control_angular = speed_smoothy(msg_twist.angular.z, control_angular, 0.1, 0.1);
 
-      pub_twist.angular.z = msg_twist.angular.z;
-      pub_twist.linear.x = control;
+      pub_twist.angular.z = control_angular;
+      pub_twist.linear.x = control_linear;
     }
 
     chatter_pub.publish(pub_twist);
