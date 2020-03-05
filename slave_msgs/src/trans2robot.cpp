@@ -81,15 +81,15 @@ void robotControl_callback(const gazebo_msgs::WorldState::ConstPtr &msgInput)
         // twist.angular.z = (diff > 0.02) ? (diff < 3.1415926 ? -0.5 : 0.5) : (diff < );
         // float angular_vel = fabsf(angular_max * float(diff/pi));
 
-        if (diff > 0.1)
+        if (diff > 0.2)
           angular_z = diff < pi ? -angular_max : angular_max;
-        else if (diff < -0.1)
+        else if (diff < -0.2)
           angular_z = diff < -pi ? -angular_max : angular_max;
         else
           angular_z = 0;
 
           control_linear = speed_smoothy(linear_x, control_linear, 0.05, 0.05);
-          control_angular = speed_smoothy(angular_z, control_angular, 0.1, 0.1);
+          control_angular = speed_smoothy(angular_z, control_angular, 0.4, 0.4);
 
           pub_twist.linear.x = control_linear;
           pub_twist.angular.z = control_angular;
@@ -98,7 +98,7 @@ void robotControl_callback(const gazebo_msgs::WorldState::ConstPtr &msgInput)
     else
     {
       control_linear = speed_smoothy(msg_twist.linear.x, control_linear, 0.05, 0.05);
-      control_angular = speed_smoothy(msg_twist.angular.z, control_angular, 0.1, 0.1);
+      control_angular = speed_smoothy(msg_twist.angular.z, control_angular, 0.4, 0.4);
 
       pub_twist.angular.z = control_angular;
       pub_twist.linear.x = control_linear;
