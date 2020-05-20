@@ -8,11 +8,19 @@ from nlink.msg import node_frame2
 from geometry_msgs.msg import Pose
 from geometry_msgs.msg import Twist
 from gazebo_msgs.msg import ModelState
+from lib.ekf_localization import ekf_local_gps
+import numpy as np
 
 pub_robot_state = rospy.Publisher('robot_state', robot_state, queue_size=10)
 seq = 0
 robot_name = "agent"
 list_info_sub = []
+
+pre_robot_state = ModelState()
+
+
+
+
 
 def robot_msg_callback(*args):
 
@@ -31,16 +39,28 @@ def robot_msg_callback(*args):
     # name
     model_state.model_name = robot_name
 
-    # pose
-    pose = Pose()
-    pose.position = args[0].position     # from uwb
-    pose.orientation = args[1].pose.pose.orientation  # from odom
-    model_state.pose = pose
-
     # twist
     twist = args[1].twist.twist
     model_state.twist = twist
     model_state.reference_frame = "global"
+
+    # pose ekf fusion from uwb and odom 
+
+    
+
+
+    # ekf_local_gps()
+
+
+
+    pose = Pose()
+
+    # pose.position = args[0].position     # from uwb
+    # pose.orientation = args[1].pose.pose.orientation  # from odom
+    # model_state.pose = pose
+
+
+
 
     robot_state_msg.modelstate = model_state
 
