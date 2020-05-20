@@ -94,7 +94,14 @@ You can skip the configure, build and run parts, simply add the auto_bringup.sh 
 
 Then, when the robot startup, it will automatically pull the latest code, build it and run the launch file.
 
- 
+## Authors
+
+**Han** - [Han](https://github.com/hanruihua)
+**Chen** - [Chen](https://github.com/chenshengduo)
+
+## License
+
+This project is licensed under the MIT License
  
 
 
