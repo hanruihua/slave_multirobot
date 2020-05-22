@@ -1,21 +1,37 @@
 import numpy as np
-from math import sin, cos
-from nav_lib.utils.wrapto2pi import wrapto2pi
+from math import sin, cos, pi
+# from nav_lib.utils.wrapto2pi import wrapto2pi
 
 
-# mut_1: t-1 state: x, y, theta   np.array([[x], [y], [theta]])
+# mut_1: t-1 state: x, y, theta  3*1 matrix    np.array([[x], [y], [theta]])
 # sigmat_1: t-1 variance: 3*3 matrix
-# ut: control parameter: linear, angular
-# zt: gps obseravation: position x and y
+# ut: control parameter: linear, angular  2*1 matrix 
+# zt: gps obseravation: position x and y  2*1 matrix     np.array([[x], [y]])
 # alpha: control noise
 # sigmaQ: observation noise (variance): 2*2
 # sampletime: sample time
 
-def ekf_local_gps(mut_1, sigmat_1, ut, zt, alpha, sigmaQ, sampletime, ground_truth = np.zeros((3, 1))):
+
+def wraptopi(radian):
+    # -pi to pi
+
+    if radian > pi:
+        radian2 = radian - 2 * pi
+    elif radian < -pi:
+        radian2 = radian + 2 * pi
+    else:
+        radian2 = radian
+
+    # diff = radian1 - radian2
+    # print(diff)
+    return radian2
+
+
+def ekf_odom_uwb(mut_1, sigmat_1, ut, zt, alpha, sigmaQ, sampletime):
 
     C = np.array([[1, 0, 0], [0, 1, 0]])
 
-    theta = float(wrapto2pi(mut_1[2, 0]))
+    theta = float(wraptopi(mut_1[2, 0]))
     vt = float(ut[0, 0])
     wt = float(ut[1, 0])
 
@@ -60,14 +76,14 @@ def ekf_local_gps(mut_1, sigmat_1, ut, zt, alpha, sigmaQ, sampletime, ground_tru
 
         sigma_t = Gt @ sigmat_1 @ np.transpose(Gt) + Vt @ Mt @ np.transpose(Vt)
 
-    mu_t[2, 0] = wrapto2pi(mu_t[2, 0])
+    mu_t[2, 0] = wraptopi(mu_t[2, 0])
 
     # correction step
     if zt.size != 0:
      
         Kt = sigma_t @ np.transpose(C) @ np.linalg.inv(C @ sigma_t @ np.transpose(C) + sigmaQ)
         mu_t = mu_t + Kt @ (zt - C @ mu_t)
-        mu_t[2, 0] = wrapto2pi(mu_t[2, 0])
+        mu_t[2, 0] = wraptopi(mu_t[2, 0])
         sigma_t = (np.identity(3) - Kt @ C) @ sigma_t
 
     return mu_t, sigma_t
