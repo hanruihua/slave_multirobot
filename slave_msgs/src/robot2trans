@@ -1,7 +1,7 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import message_filters
 import sys
-sys.path.append('./')
+sys.path.append('../')
 
 import rospy
 from nav_msgs.msg import Odometry
@@ -10,9 +10,9 @@ from nlink.msg import node_frame2
 from geometry_msgs.msg import Pose
 from geometry_msgs.msg import Twist
 from gazebo_msgs.msg import ModelState
-from lib.ekf_localization import ekf_odom_uwb
+from msgs_lib.ekf_localization import ekf_odom_uwb
 import numpy as np
-from math import sin, cos
+from math import sin, cos, atan2, asin
 
 
 # robot state: x, y, theta  (theta in robot_ekf_state.pose.pose.position.z)
@@ -27,15 +27,22 @@ sigmat_1 = np.ones((3, 3))
 sampletime = 0.05
 sigmaQ = np.array([[0.01, 0], [0, 0.01]])
 alpha =  [0.1, 0.1, 0.1, 0.1, 0.2, 0.2]
-# def quarter2angle(quaternion):
-#     x = quaternion.x
-#     y = quaternion.y
-#     z = quaternion.z
-#     w = quaternion.w
 
-#     r = math.atan2(2*(w*x+y*z),1-2*(x*x+y*y))
-#     p = math.asin(2*(w*y-z*x))
-#     y = math.atan2(2*(w*z+x*y),1-2*(z*z+y*y))
+def quarter2angle(x, y, z, w):
+    r = atan2(2*(w*x+y*z),1-2*(x*x+y*y))
+    p = asin(2*(w*y-z*x))
+    y = atan2(2*(w*z+x*y),1-2*(z*z+y*y))
+
+    return r, p, y
+
+def angle2quarter(angle_x, angle_y, angle_z):
+
+    w = cos(angle_x/2) * cos(angle_y/2) * cos(angle_z/2) + sin(angle_x/2) * sin(angle_y/2) * sin(angle_z/2)
+    x = sin(angle_x/2) * cos(angle_y/2) * cos(angle_z/2) - cos(angle_x/2) * sin(angle_y/2) * sin(angle_z/2)
+    y = cos(angle_x/2) * sin(angle_y/2) * cos(angle_z/2) + sin(angle_x/2) * cos(angle_y/2) * sin(angle_z/2)
+    z = cos(angle_x/2) * cos(angle_y/2) * sin(angle_z/2) - sin(angle_x/2) * sin(angle_y/2) * cos(angle_z/2)
+    
+    return x, y, z, w
 
 def robot_msg_callback(*args):
     #  args[0] -- uwb
@@ -57,7 +64,7 @@ def robot_msg_callback(*args):
     # name
     model_state.model_name = robot_name
 
-    # pose ekf fusion from uwb and odom 
+    # model pose ekf fusion from uwb and odom 
 
     ut = np.array([[args[1].twist.twist.linear.x], [args[1].twist.twist.angular.z]])
     zt = np.array([[args[0].position.x], [args[0].position.y]])
@@ -69,6 +76,13 @@ def robot_msg_callback(*args):
     pose.position.x = mu_t[0, 0]    
     pose.position.y = mu_t[1, 0] 
     pose.position.z = mu_t[2, 0] 
+
+    x, y, z, w = angle2quarter(0, 0, mu_t[2, 0])
+
+    pose.orientation.x = x
+    pose.orientation.y = y
+    pose.orientation.z = z
+    pose.orientation.w = w
 
     model_state.pose = pose
 
@@ -113,7 +127,6 @@ def robot_state_publish():
     print("Configure successfully, waiting for odom and uwn message")
 
     rospy.spin()
-
 
     while not rospy.is_shutdown():
         rate.sleep()

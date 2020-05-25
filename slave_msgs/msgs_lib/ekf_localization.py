@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import numpy as np
 from math import sin, cos, pi
 # from nav_lib.utils.wrapto2pi import wrapto2pi

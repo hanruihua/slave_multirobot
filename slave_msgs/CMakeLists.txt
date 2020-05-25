@@ -2,7 +2,7 @@ project(slave_msgs)
 cmake_minimum_required(VERSION 3.1)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR})
-# catkin_python_setup()
+
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
@@ -11,6 +11,8 @@ find_package(catkin REQUIRED COMPONENTS
   gazebo_msgs
   message_generation
 )
+
+catkin_python_setup()
 
 include_directories(
  include
@@ -37,7 +39,6 @@ generate_messages(
 )
 
 catkin_package(CATKIN_DEPENDS message_runtime)
-
 
 add_executable(trans2robot_node src/trans2robot.cpp)
 target_link_libraries(trans2robot_node ${catkin_LIBRARIES})
