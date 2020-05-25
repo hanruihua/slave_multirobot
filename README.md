@@ -96,7 +96,7 @@ Then, when the robot startup, it will automatically pull the latest code, build 
 
 ## Authors
 
-**Han** - [Han](https://github.com/hanruihua)
+**Han** - [Han](https://github.com/hanruihua)  
 **Chen** - [Chen](https://github.com/chenshengduo)
 
 ## License
