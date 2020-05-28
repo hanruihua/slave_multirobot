@@ -27,6 +27,7 @@ geometry_msgs::Twist msg;
 ros::Publisher chatter_pub;
 
 float speed_smoothy(float target, float control, float acc_inc, float acc_dec);
+float trans2pi(float angle);
 
 void robotControl_callback(const gazebo_msgs::WorldState::ConstPtr &msgInput)
 {
@@ -64,11 +65,7 @@ void robotControl_callback(const gazebo_msgs::WorldState::ConstPtr &msgInput)
       else
       {
         double speed = sqrt(pow(rvo_x, 2) + pow(rvo_y, 2));
-        if (speed < 0.01)
-          linear_x = 0;
-        else
-          linear_x = speed;
-
+        
         if (rvo_y == 0)
           angle_vel = 0;
         else
@@ -76,10 +73,13 @@ void robotControl_callback(const gazebo_msgs::WorldState::ConstPtr &msgInput)
         
         angle_yaw = cal_yaw(msgInput->pose[msg_index].orientation);
 
-        float diff = angle_yaw - angle_vel;
-
-        // twist.angular.z = (diff > 0.02) ? (diff < 3.1415926 ? -0.5 : 0.5) : (diff < );
-        // float angular_vel = fabsf(angular_max * float(diff/pi));
+        float diff = trans2pi(angle_yaw - angle_vel);
+        float speed_goal = speed * cos(diff);
+        
+        if (speed_goal < 0.01)
+          linear_x = 0;
+        else
+          linear_x = speed_goal;
 
         if (diff > 0.2)
           angular_z = diff < pi ? -angular_max : angular_max;
@@ -137,6 +137,20 @@ float speed_smoothy(float target, float control, float acc_inc, float acc_dec)
     return control;
 
 }
+
+//transform the angle in [-pi, pi]
+float trans2pi(float angle)
+{
+  if (angle > pi)
+    angle = angle - 2*pi;
+  
+  else if (angle < -pi)
+    angle = angle + 2 * pi;
+
+  return angle;
+
+}
+
 
 // input robot id in argv
 int main(int argc, char **argv)
