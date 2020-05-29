@@ -26,7 +26,7 @@ init = False
 mut_1 = np.array([[0], [0], [0]])
 sigmat_1 = np.ones((3, 3))
 sampletime = 0.05
-sigmaQ = np.array([[0.005, 0], [0, 0.005]])
+sigmaQ = np.array([[0.01, 0], [0, 0.01]])
 alpha =  [0.1, 0.1, 0.1, 0.1, 0.2, 0.2]
 
 def quarter2angle(x, y, z, w):
@@ -74,9 +74,8 @@ def robot_msg_callback(*args):
     if not init:
         mut_1[0, 0] = zt[0, 0]
         mut_1[1, 0] = zt[1, 0]
-    else:
         init = True
-
+        
     mu_t, sigma_t = ekf_odom_uwb(mut_1, sigmat_1, ut, zt, alpha, sigmaQ, sampletime)
     
     pose = Pose()
