@@ -21,11 +21,12 @@ pub_robot_state = rospy.Publisher('robot_state', robot_state, queue_size=10)
 seq = 0
 robot_name = "agent1"
 list_info_sub = []
+init = False
 
 mut_1 = np.array([[0], [0], [0]])
 sigmat_1 = np.ones((3, 3))
 sampletime = 0.05
-sigmaQ = np.array([[0.01, 0], [0, 0.01]])
+sigmaQ = np.array([[0.005, 0], [0, 0.005]])
 alpha =  [0.1, 0.1, 0.1, 0.1, 0.2, 0.2]
 
 def quarter2angle(x, y, z, w):
@@ -51,11 +52,11 @@ def robot_msg_callback(*args):
     model_state = ModelState()
     robot_state_msg = robot_state()
 
-    global seq, mut_1, sigmat_1
+    global seq, mut_1, sigmat_1, init
 
     # global num_robot
     seq += 1
-
+   
     # header
     robot_state_msg.header.stamp = rospy.Time.now()
     robot_state_msg.header.seq = seq
@@ -68,6 +69,13 @@ def robot_msg_callback(*args):
 
     ut = np.array([[args[1].twist.twist.linear.x], [args[1].twist.twist.angular.z]])
     zt = np.array([[args[0].position.x], [args[0].position.y]])
+    
+    # init
+    if not init:
+        mut_1[0, 0] = zt[0, 0]
+        mut_1[0, 1] = zt[0, 1]
+    else:
+        init = True
 
     mu_t, sigma_t = ekf_odom_uwb(mut_1, sigmat_1, ut, zt, alpha, sigmaQ, sampletime)
     
