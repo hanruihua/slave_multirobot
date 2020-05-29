@@ -73,7 +73,7 @@ def robot_msg_callback(*args):
     # init
     if not init:
         mut_1[0, 0] = zt[0, 0]
-        mut_1[0, 1] = zt[0, 1]
+        mut_1[1, 0] = zt[1, 0]
     else:
         init = True
 
