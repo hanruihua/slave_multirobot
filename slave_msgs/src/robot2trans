@@ -82,7 +82,7 @@ def robot_msg_callback(*args):
 
     pose.position.x = mu_t[0, 0]    
     pose.position.y = mu_t[1, 0] 
-    pose.position.z = mu_t[2, 0] 
+    pose.position.z = mu_t[2, 0]   #theta 
 
     x, y, z, w = angle2quarter(0, 0, mu_t[2, 0])
 
@@ -131,7 +131,7 @@ def robot_state_publish():
     ts_info = message_filters.ApproximateTimeSynchronizer(list_info_sub, 10, 1)
     ts_info.registerCallback(robot_msg_callback)
 
-    print("Configure successfully, waiting for odom and uwn message")
+    print("Configure successfully, waiting for odom and uwb message")
 
     rospy.spin()
 
