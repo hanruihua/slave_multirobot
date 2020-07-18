@@ -15,6 +15,12 @@ Please run the [Master program](https://github.com/hanruihua/master_multirobot) 
 > cd ~/catkin_ws/src
 > git clone https://github.com/hanruihua/slave_multirobot.git
 
+### dependence
+
+sudo apt-get install python-yaml
+pip3 install rospkg numpy
+
+
 ### For turtlebot2
 
 Install the ros package related to turtlebot
