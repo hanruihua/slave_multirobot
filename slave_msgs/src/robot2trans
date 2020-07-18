@@ -24,6 +24,7 @@ list_info_sub = []
 init = False
 
 mut_1 = np.array([[0], [0], [0]])
+
 sigmat_1 = np.ones((3, 3))
 sampletime = 0.05
 sigmaQ = np.array([[0.01, 0], [0, 0.01]])
@@ -78,6 +79,11 @@ def robot_msg_callback(*args):
         
     mu_t, sigma_t = ekf_odom_uwb(mut_1, sigmat_1, ut, zt, alpha, sigmaQ, sampletime)
     
+    var_range = np.sqrt( (mut_1[0, 0] - mu_t[0, 0]) ** 2 + (mut_1[1, 0] - mu_t[1, 0]) ** 2  )
+
+    if var_range > 0.1:
+        mu_t = mut_1
+
     pose = Pose()
 
     pose.position.x = mu_t[0, 0]    
@@ -119,7 +125,7 @@ def robot_state_publish():
     global robot_name 
 
     if (len(sys.argv)<2):
-        rospy.loginfo_once("no input, using the default robot name: agent1")
+        print("no input, using the default robot name: agent1")
     else:
         robot_name = sys.argv[1]
             
