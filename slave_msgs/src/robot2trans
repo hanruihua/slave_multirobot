@@ -115,7 +115,7 @@ def robot_msg_callback(*args):
 
     pub_robot_state.publish(robot_state_msg)
 
-    print("robot2trans: publish robot information messages successfully")
+    # print("robot2trans: publish robot information messages successfully")
 
 def robot_state_publish():
     
