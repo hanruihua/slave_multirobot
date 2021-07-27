@@ -27,8 +27,8 @@ mut_1 = np.array([[0], [0], [0]])
 
 sigmat_1 = np.ones((3, 3))
 sampletime = 0.05
-sigmaQ = np.array([[0.01, 0], [0, 0.01]])
-alpha =  [0.1, 0.1, 0.1, 0.1, 0.2, 0.2]
+sigmaQ = np.array([[0.05, 0], [0, 0.05]])
+alpha =  [0.05, 0.05, 0.05, 0.05, 0.05, 0.05]
 
 def quarter2angle(x, y, z, w):
     r = atan2(2*(w*x+y*z),1-2*(x*x+y*y))
