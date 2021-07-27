@@ -79,10 +79,10 @@ def robot_msg_callback(*args):
         
     mu_t, sigma_t = ekf_odom_uwb(mut_1, sigmat_1, ut, zt, alpha, sigmaQ, sampletime)
     
-    # var_range = np.sqrt( (mut_1[0, 0] - mu_t[0, 0]) ** 2 + (mut_1[1, 0] - mu_t[1, 0]) ** 2  )
-
-    # if var_range > 0.1:
-    #     mu_t = mut_1
+    var_range = np.sqrt( (mut_1[0, 0] - mu_t[0, 0]) ** 2 + (mut_1[1, 0] - mu_t[1, 0]) ** 2  )
+    print('range:',  var_range)
+    if var_range > 0.1:
+        mu_t[:] = mut_1[:]
 
     pose = Pose()
 
